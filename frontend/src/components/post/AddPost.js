@@ -180,7 +180,7 @@ export function AddPost() {
                     </div>
                 </form>
             </CardContent>
-            <CardFooter className="flex justify-between">
+            <CardFooter className="mt-3 flex justify-between">
                 <Button variant="outline">Cancel</Button>
                 <Button handleClick={handleSubmit} variant="outline"><FontAwesomeIcon width={15} className="mr-2" icon={faPaperPlane} />Post</Button>
             </CardFooter>

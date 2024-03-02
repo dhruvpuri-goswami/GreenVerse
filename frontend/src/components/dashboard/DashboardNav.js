@@ -8,7 +8,7 @@ export default function DashboardNav() {
             <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
                 <a className="flex items-center text-2xl font-black" href="/">
                     {/* Image Logo */}
-                    <span className='text-primary_theme_theme'>Green<span className='text-secondary_theme_theme'>Verse</span></span>
+                    <span className='text-primary_theme'>Green<span className='text-secondary_theme'>Verse</span></span>
                 </a>
                 <input className="peer hidden" type="checkbox" id="navbar-open" />
                 <label className="absolute right-0 mt-1 cursor-pointer text-xl sm:hidden" for="navbar-open">
