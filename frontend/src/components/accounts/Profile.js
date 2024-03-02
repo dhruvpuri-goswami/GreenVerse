@@ -26,25 +26,6 @@ export function Profile() {
     const [image, setImage] = useState({});
     const router = useRouter();
 
-<<<<<<< Updated upstream
-    const handleSignUp = async() =>{
-        console.log(authData);
-        const res = await fetch("http://localhost:8000/signup/",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(authData)
-        });
-
-        console.log(res.json());
-=======
-    //calling route for naviagation
-    if (authData.name === "" || authData.email === "" || authData.password === "") {
-        return router.push('/Account/Signup');
->>>>>>> Stashed changes
-    }
-
 
     const handleSignUp = async (e) => {
         e.preventDefault();

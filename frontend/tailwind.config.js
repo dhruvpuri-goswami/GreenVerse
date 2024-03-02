@@ -16,14 +16,10 @@ module.exports = {
         "2xl": "1400px",
       },
     },
-    colors: {
-      "primary": "#00ad35",
-      "secondary": "#00ad35d6",
-    },
     extend: {
       colors: {
-        primary: "#00ad35",
-        secondary: "#00ad35d6",
+        primary_theme: "#00bf3b",
+        secondary_theme: "#008d2b",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
