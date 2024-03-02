@@ -13,11 +13,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { AuthContext } from "@/context/AuthState"
+import { AlertDestructive } from "../ui/AlertDestructive"
 
 
 export function Signup() {
   const authContext = useContext(AuthContext);
   const { authData, setAuthData } = authContext;
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   //calling route for naviagation
   const router = useRouter();
@@ -33,13 +36,68 @@ export function Signup() {
   }
 
   const handleClick = () => {
-    console.log(authData);
-
     //do validations
+    const validationRes = validate(authData.name,authData.email,authData.password);
+
+    if(validationRes.isError){
+      setIsError(true);
+      setErrorMessage(validationRes.errorMessage);
+      setTimeout(() => {
+          setIsError(false);
+      }, 1500);
+      return;
+    }
     router.push('/Account/Profile');
   }
 
+  //reset fields
+  const handleCancel = () =>{
+    setAuthData({
+      name: "",
+      email: "",
+      password: "",
+    })
+  }
+
+  //validating fields
+  const validate = (name,email,password) => {
+    if(authData.name === "" || authData.email === "" || authData.password === ""){
+      return {
+        isError: true,
+        errorMessage: "Please fill all fields"
+      };
+    }
+
+    if(name.trim() === "")
+      return {
+        isError: true,
+        errorMessage: "Please fill all fields"
+      };
+
+    if(!/\S+@\S+\.\S+/.test(email)){
+      return {
+        isError: true,
+        errorMessage: "Please enter a valid email"
+      };
+    }
+
+    if(password.length < 8){
+      return {
+        isError: true,
+        errorMessage: "Password must be atleast 8 characters"
+      };
+    }
+    
+    return {
+      isError: false,
+    };
+  }
+
   return (
+    <>
+    <div className={`absolute w-1/3 -translate-y-1/2 ${isError ? "top-12" : "-top-1/2"} -translate-x-1/2 left-1/2 ease-in duration-500`}>
+        <AlertDestructive errorMessage={errorMessage}/>
+    </div>
     <Card className="w-[350px] m-auto">
       <CardHeader>
         <CardTitle>Signup</CardTitle>
@@ -50,23 +108,24 @@ export function Signup() {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Fullname</Label>
-              <Input onChange={handleChange} id="name" placeholder="Joe" />
+              <Input value={authData.name} onChange={handleChange} id="name" placeholder="Joe" />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Email</Label>
-              <Input onChange={handleChange} id="email" placeholder="joe@gmail.com" />
+              <Input value={authData.email} onChange={handleChange} id="email" placeholder="joe@gmail.com" />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Password</Label>
-              <Input onChange={handleChange} id="password" placeholder="****" />
+              <Input value={authData.password} onChange={handleChange} id="password" placeholder="****" />
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
+        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleClick}>Continue</Button>
       </CardFooter>
     </Card>
+    </>
   )
 }
