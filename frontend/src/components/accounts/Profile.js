@@ -26,6 +26,11 @@ export function Profile() {
     const [image, setImage] = useState({});
     const router = useRouter();
 
+    //calling route for naviagation
+    if (authData.name === "" || authData.email === "" || authData.password === "") {
+        return router.push('/Account/Signup');
+    }
+
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -104,7 +109,7 @@ export function Profile() {
                             <div className="flex mt-4 flex-col space-y-1.5">
                                 <div className="grid w-full max-w-sm items-center gap-1.5">
                                     <Label className="mb-1" htmlFor="picture">Your Profile Image</Label>
-                                    <Input onChange={(e) => setImage(e.target.files[0])} id="image" type="file" />
+                                    <Input accept="image/*" onChange={(e) => setImage(e.target.files[0])} id="image" type="file" />
                                 </div>
                             </div>
                         </div>

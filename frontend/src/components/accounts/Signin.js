@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { AuthContext } from "@/context/AuthState"
 import { AlertDestructive } from "../ui/AlertDestructive"
+import Link from "next/link"
 
 export default function Signin() {
     const authContext = useContext(AuthContext);
@@ -36,17 +37,17 @@ export default function Signin() {
     const handleSignin = async () => {
         //do validations
         const validationRes = validate(authData.email, authData.password);
-        if(validationRes.isError){
+        if (validationRes.isError) {
             setIsError(true);
             setErrorMessage(validationRes.errorMessage);
             setTimeout(() => {
                 setIsError(false);
             }, 1500);
             return;
-          }
-        
+        }
+
         const res = await signin();
-        if(res.error){
+        if (res.error) {
             setIsError(true);
             setErrorMessage(res.error);
             setTimeout(() => {
@@ -102,7 +103,7 @@ export default function Signin() {
                             </div>
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="framework">Password</Label>
-                                <Input onChange={handleChange} id="password" placeholder="****" />
+                                <Input onChange={handleChange} type="password" id="password" placeholder="********" />
                             </div>
                         </div>
                     </form>
@@ -111,6 +112,9 @@ export default function Signin() {
                     <Button variant="outline">Cancel</Button>
                     <Button onClick={handleSignin}>Continue</Button>
                 </CardFooter>
+                    <div className="ml-7 mb-3 -mt-2 text-sm">
+                        Don't have an account? <Link href={'/Account/Signup'} className="text-blue-500 cursor-pointer">Signup</Link>
+                    </div>
             </Card>
         </>
     )

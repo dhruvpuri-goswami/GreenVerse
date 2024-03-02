@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { AuthContext } from "@/context/AuthState"
 import { AlertDestructive } from "../ui/AlertDestructive"
+import Link from "next/link"
 
 
 export function Signup() {
@@ -116,7 +117,7 @@ export function Signup() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Password</Label>
-              <Input value={authData.password} onChange={handleChange} id="password" placeholder="****" />
+              <Input value={authData.password} onChange={handleChange} type="password" id="password" placeholder="********" />
             </div>
           </div>
         </form>
@@ -125,6 +126,9 @@ export function Signup() {
         <Button variant="outline" onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleClick}>Continue</Button>
       </CardFooter>
+      <div className="ml-7 mb-3 -mt-2 text-sm">
+        Already have an account? <Link href={'/Account/Signin'} className="text-blue-500 cursor-pointer">Signin</Link>   
+      </div>
     </Card>
     </>
   )
