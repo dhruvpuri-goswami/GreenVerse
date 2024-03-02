@@ -55,7 +55,13 @@ export function AddPost() {
         event.preventDefault();
         if (validateForm()) {
             // Here you would usually send data to the server
-            console.log("Form is valid: ", { title, description, tag, selectedImages });
+            const postData = { 
+                postTitle: title,
+                postDescription: description,
+                postTag: tag,
+                postImages: selectedImages,
+            }
+            console.log("Form is valid: ", postData);
         }
     };
 
