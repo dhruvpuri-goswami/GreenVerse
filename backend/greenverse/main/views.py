@@ -13,7 +13,20 @@ from django.utils.encoding import force_bytes, force_str
 import datetime
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.mail import send_mail
+import pathlib
+import textwrap
+from anyio import Path
+from PIL import Image
+import google.generativeai as genai
+from IPython.display import display
+from IPython.display import Markdown
+from io import BytesIO
 
+import requests
+
+GOOGLE_API_KEY='AIzaSyCfQn34cjYViGCN_uKa1y3u7HbIXbyEpp8'
+
+genai.configure(api_key=GOOGLE_API_KEY)
 @csrf_exempt
 def signup(request):
     if request.method != "POST":
@@ -59,8 +72,6 @@ def signup(request):
 
     return JsonResponse({'success': 'Successfully registered. Please log in.', 'data': user_object,'status':200}, status=200)
 
-
-
 @csrf_exempt
 def signin(request):
     if request.method != "POST":
@@ -102,7 +113,6 @@ def signin(request):
     
     except Exception as e:
         return JsonResponse({'error': str(e),'status':500},status=500)
-    
     
 @csrf_exempt
 def forgetpassword(request):
@@ -150,8 +160,6 @@ def forgetpassword(request):
     else:
         return JsonResponse({'error': 'Only POST method is allowed','status':405})
 
-
-
 @csrf_exempt
 def changepassword(request):
     if request.method == 'POST':
@@ -185,8 +193,6 @@ def changepassword(request):
         return JsonResponse({'error': 'Only POST method is allowed','status':405})
 
 
-
-
 def simple_token_generator(email):
     timestamp = str(time.time()).encode('utf-8')
     return hashlib.sha256(email.encode('utf-8') + timestamp).hexdigest()
@@ -199,3 +205,98 @@ def verify_token(email, provided_token):
     stored_token = user_data.get('reset_token', '')
 
     return stored_token == provided_token
+
+@csrf_exempt
+def addpost(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            title = data.get('title')
+            description = data.get('description')
+            tags = data.get('tags', [])  
+            image_urls = data.get('images', [])
+            datetime_posted = data.get('datetime', datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+            if not title or not description:
+                return JsonResponse({'error': 'Title and description are required.', 'status':400})
+
+            ai_generated_comment = generate_ai_comment(title, description, image_urls)
+
+            post_data = {
+                'title': title,
+                'description': description,
+                'tags': tags,
+                'image_urls': image_urls,
+                'datetime': datetime_posted,
+                'ai_generated_comment': ai_generated_comment,
+            }
+
+            ref = db.reference('posts')
+            new_post_ref = ref.push(post_data)
+
+            return JsonResponse({'success': 'Post added successfully', 'post_id': new_post_ref.key, 'ai_generated_comment': ai_generated_comment, 'status':200})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed.', 'status':405}, status=405)
+
+def generate_ai_comment(title, description, image_urls):
+    images = []
+    for url in image_urls:
+        response = requests.get(url)
+        img = Image.open(BytesIO(response.content))
+        images.append(img)
+    
+    model = genai.GenerativeModel('gemini-pro-vision')
+    prompt = f"Based on the post title, description, and the attached images, please provide a short, helpful and casual comment. Offer advice if it seems to be a query, concern or question, or make a supportive casual comment if not. Focus on being concise and practical. Title: {title}, Desc: {description}"
+    
+    response = model.generate_content([prompt] + images, stream=True)
+    response.resolve()
+    return response.text
+
+
+@csrf_exempt
+def fetch_all_posts(request):
+    if request.method == 'GET':
+        ref = db.reference('posts')
+        posts = ref.get()
+        return JsonResponse(posts)
+    else:
+        return JsonResponse({'error': 'Only GET requests are allowed.'}, status=405)
+
+@csrf_exempt
+def fetch_posts_by_tag(request, tag):
+    if request.method == 'GET':
+        ref = db.reference('posts')
+        all_posts = ref.get()
+        filtered_posts = {key: val for key, val in all_posts.items() if tag in val.get('tags', [])}
+        return JsonResponse(filtered_posts)
+    else:
+        return JsonResponse({'error': 'Only GET requests are allowed.'}, status=405)
+
+@csrf_exempt
+def fetch_limited_posts(request):
+    try:
+        if request.method == 'GET':
+            limit = request.GET.get('limit', 5)  
+            limit = int(limit)
+            ref = db.reference('posts').order_by_child('datetime').limit_to_last(limit)
+            posts = ref.get()
+            return JsonResponse({"posts": posts})
+        else:
+            return JsonResponse({'error': 'Only GET requests are allowed.'}, status=405)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+def fetch_recent_posts(request):
+    try:
+        if request.method == 'GET':
+            days = request.GET.get('days', 7)  # 
+            ref = db.reference('posts').order_by_child('datetime').limit_to_last(50) 
+            posts = ref.get()
+            return JsonResponse({"posts": posts})
+        else:
+            return JsonResponse({'error': 'Only GET requests are allowed.'}, status=405)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

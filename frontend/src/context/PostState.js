@@ -15,7 +15,7 @@ export const PostProvider = ({ children }) => {
         console.log(postObj);
         try{
             //api call
-            const res = await fetch('http://localhost:5000/api/addpost',{
+            const res = await fetch('http://localhost:8000/add-post/',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
