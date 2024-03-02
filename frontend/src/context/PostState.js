@@ -11,7 +11,7 @@ export const PostProvider = ({ children }) => {
         tags: [],
     })
 
-    const addPost = async() => {
+    const addPost = async(uploadedImages) => {
         console.log(postObj);
         try{
             //api call
@@ -20,7 +20,12 @@ export const PostProvider = ({ children }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(postObj)
+                body: JSON.stringify({
+                    title: postObj.title,
+                    description: postObj.description,
+                    images: uploadedImages,
+                    tags: postObj.tags
+                })
             });
             const data = await res.json();
             console.log(data);

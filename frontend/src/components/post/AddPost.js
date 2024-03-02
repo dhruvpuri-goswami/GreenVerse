@@ -27,7 +27,7 @@ import { useRouter } from 'next/navigation'
 export function AddPost() {
     //context include
     const postcontext = useContext(PostContext);
-    const {postObj, setPostObj, addPost } = postcontext;
+    const { postObj, setPostObj, addPost } = postcontext;
     const [errors, setErrors] = useState({});
     const imageInputRef = useRef(null);
     const [selectedImages, setselectedImages] = useState([]);
@@ -56,31 +56,37 @@ export function AddPost() {
         return formIsValid;
     };
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
             // Here you would usually send data to the server
-            console.log("Form is valid: ",  postObj);
+            console.log("Form is valid: ", postObj);
 
             //Image upload
-            try{
-                selectedImages.forEach(async element => {
+            try {
+                const uploadedImages = [];
+
+                // Iterate over selectedImages and upload each image to Cloudinary
+                for (const element of selectedImages) {
                     const res = await cloudinaryUpload(element, "greenverse/posts");
-                    // postObj.images.push(res.url);
-                    setPostObj(e => ({...e, images: [...e.images, res.url]}));
-                    // console.log(res);
-                });
+                    uploadedImages.push(res.url);
+                }
+
+                // Update postObj with the array of uploaded image URLs
+                setPostObj((prevPostObj) => ({
+                    ...prevPostObj,
+                    images: [...prevPostObj.images, ...uploadedImages],
+                }));
 
                 //Add post
-                const res = await addPost();
-                console.log(res);
-                if(res.isError){
+                const res = await addPost(uploadedImages);
+                if (res.isError) {
                     alert(res.error);
                     return;
                 }
 
                 router.push('/Dashboard');
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         }
@@ -91,18 +97,18 @@ export function AddPost() {
         console.log(files)
         const validImages = [];
 
-        if(selectedImages.length + files.length > 5){
+        if (selectedImages.length + files.length > 5) {
             alert("You can select only 5 document.");
         }
 
         files.forEach((element) => {
-          if (!element.type.startsWith("image/") || element.size > 3000000) {
-            alert("Cannot upload file more than 3MB or not an image!");
-          } else {
-            validImages.push(element);
-          }
+            if (!element.type.startsWith("image/") || element.size > 3000000) {
+                alert("Cannot upload file more than 3MB or not an image!");
+            } else {
+                validImages.push(element);
+            }
         });
-        
+
         // Update state after the loop
         setselectedImages((prevImages) => [...prevImages, ...validImages]);
         console.log(selectedImages)
@@ -124,12 +130,12 @@ export function AddPost() {
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="title">Title</Label>
-                            <Input value={postObj.title} onChange={(event) => setPostObj(e => ({...e,title:event.target.value}))} id="title" placeholder="Write your title of post." />
+                            <Input value={postObj.title} onChange={(event) => setPostObj(e => ({ ...e, title: event.target.value }))} id="title" placeholder="Write your title of post." />
                             {errors.title && <p className="text-red-500">{errors.title}</p>}
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="description">Description</Label>
-                            <Textarea id="description" placeholder="write you description of post." value={postObj.description} onChange={(event) => setPostObj(e => ({...e,description:event.target.value}))} />
+                            <Textarea id="description" placeholder="write you description of post." value={postObj.description} onChange={(event) => setPostObj(e => ({ ...e, description: event.target.value }))} />
                             {errors.description && <p className="text-red-500">{errors.description}</p>}
                         </div>
                         <div className="flex flex-col space-y-1.5">
@@ -213,7 +219,7 @@ export function AddPost() {
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="description">Tag</Label>
-                            <Input id="tags" placeholder="Write your tags of post.(Comma seperated)" value={postObj.tags} onChange={(event) => setPostObj(e => ({...e,tags:event.target.value.split(',')}))} />
+                            <Input id="tags" placeholder="Write your tags of post.(Comma seperated)" value={postObj.tags} onChange={(event) => setPostObj(e => ({ ...e, tags: event.target.value.split(',') }))} />
                             {errors.tag && <p className="text-red-500">{errors.tag}</p>}
                         </div>
                     </div>
