@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password,check_password
 from django.utils.timezone import now
 import json
 import firebase_admin
@@ -51,3 +51,46 @@ def signup(request):
 
     return JsonResponse({'success': 'Successfully registered. Please log in.', 'data': user_object})
 
+
+
+@csrf_exempt
+def signin(request):
+    if request.method != "POST":
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+    
+    data = json.loads(request.body)
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return JsonResponse({'error': 'Email and password are required'}, status=400)
+
+    try:
+        firebase_email_key = email.replace('.', ',')
+        user_ref = db.reference('users').child(firebase_email_key)
+        
+        user_data = user_ref.get()
+
+        if not user_data:
+            return JsonResponse({'error': 'User does not exist'}, status=404)
+
+        if not check_password(password, user_data.get('password')):
+            return JsonResponse({'error': 'Incorrect password'}, status=401)
+
+        user_ref.update({
+            'last_login': now().strftime("%Y-%m-%d %H:%M:%S"),
+        })
+        
+        user_object = {
+            'name': user_data.get('name'),
+            'email': user_data.get('email'),
+            'img': user_data.get('imageurl'),
+            'gender' : user_data.get('gender'),
+            'account_created' : user_data.get('account_created'),
+            'last_login' : user_data.get('last_login'),
+        }
+        request.session['email'] = user_data.get('name')
+        return JsonResponse({'success': 'Successfully signed in', 'data': user_object})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
