@@ -17,8 +17,8 @@ export default function Nav() {
                 </label>
                 <nav aria-label="Header Navigation" className="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0">
                     <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
-                        <li className=""><a className="text-gray-600 hover:text-blue-600" href="#">Home</a></li>
-                        <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white" href="#">Login</a></li>
+                        <li className=""><a className="text-gray-600 hover:text-primary_theme" href="#">Home</a></li>
+                        <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-primary_theme px-6 py-2 font-medium text-slate-800 hover:bg-primary_theme hover:text-white" href="#">Login</a></li>
                     </ul>
                 </nav>
             </div>
