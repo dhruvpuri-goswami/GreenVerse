@@ -17,12 +17,12 @@ from django.core.mail import send_mail
 @csrf_exempt
 def signup(request):
     if request.method != "POST":
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
+        return JsonResponse({'error': 'Method not allowed','status':405})
 
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        return JsonResponse({'error': 'Invalid JSON','status':400})
 
     name = data.get('name')
     email = data.get('email')
@@ -71,19 +71,19 @@ def signin(request):
     password = data.get('password')
 
     if not email or not password:
-        return JsonResponse({'error': 'Email and password are required'}, status=400)
+        return JsonResponse({'error': 'Email and password are required','status':400})
 
     try:
         firebase_email_key = email.replace('.', ',')
         user_ref = db.reference('users').child(firebase_email_key)
-        
+                    
         user_data = user_ref.get()
 
         if not user_data:
-            return JsonResponse({'error': 'User does not exist'}, status=404)
+            return JsonResponse({'error': 'User does not exist','status':404},status=404)
 
         if not check_password(password, user_data.get('password')):
-            return JsonResponse({'error': 'Incorrect password'}, status=401)
+            return JsonResponse({'error': 'Incorrect password','status':401},status=401)
 
         user_ref.update({
             'last_login': now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -98,10 +98,10 @@ def signin(request):
             'last_login' : user_data.get('last_login'),
         }
         request.session['email'] = user_data.get('name')
-        return JsonResponse({'success': 'Successfully signed in', 'data': user_object}, status=200)
+        return JsonResponse({'success': 'Successfully signed in', 'data': user_object,'status':200},status=200)
     
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e),'status':500},status=500)
     
     
 @csrf_exempt
@@ -111,7 +111,7 @@ def forgetpassword(request):
         email = data.get('email')
 
         if not email:
-            return JsonResponse({'error': 'Email is required'}, status=400)
+            return JsonResponse({'error': 'Email is required','status':500})
 
         ref = db.reference('users')
         user_ref = ref.child(email.replace('.', ','))
@@ -121,7 +121,7 @@ def forgetpassword(request):
             token = simple_token_generator(email)
             user_ref.update({'reset_token': token})
             uid = urlsafe_base64_encode(force_bytes(email))
-            password_reset_link = f"http://127.0.0.1:8000/reset-password/{uid}/{token}/"
+            password_reset_link = f"http://127.0.0.1:3000/Account/change-password/{uid}/{token}/"
 
             email_context = {
                 'site_name' : "GreenVerse",
@@ -140,15 +140,15 @@ def forgetpassword(request):
                     fail_silently=False,
                     html_message=email_body,
                 )
-                return JsonResponse({'success': 'A password reset link has been sent to your email.'},status=200)
+                return JsonResponse({'success': 'A password reset link has been sent to your email.','status':200})
             except Exception as e:
-                return JsonResponse({'error': 'There was an error sending the email.'}, status=500)
+                return JsonResponse({'error': 'There was an error sending the email.','status':200})
 
         else:
-            return JsonResponse({'error': 'Email does not exist.'}, status=404)
+            return JsonResponse({'error': 'Email does not exist.','status':404})
 
     else:
-        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+        return JsonResponse({'error': 'Only POST method is allowed','status':405})
 
 
 
@@ -159,34 +159,30 @@ def changepassword(request):
         uidb64 = data.get('uid')
         token = data.get('token')
         new_password = data.get('password')
-        confirm_password = data.get('confirm_password')
 
-        if not all([uidb64, token, new_password, confirm_password]):
-            return JsonResponse({'error': 'All fields are required'}, status=400)
+        if not all([uidb64, token, new_password]):
+            return JsonResponse({'error': 'All fields are required','status':400})
 
         try:
             email = force_str(urlsafe_base64_decode(uidb64))
         except (TypeError, ValueError, OverflowError):
-            return JsonResponse({'error': 'Invalid user ID'}, status=400)
+            return JsonResponse({'error': 'Invalid user ID','status':400})
 
         if email and verify_token(email, token):
-            if new_password == confirm_password:
-                user_id = email.replace('.', ',')
-                ref = db.reference('users')
-                user_ref = ref.child(user_id)
+            user_id = email.replace('.', ',')
+            ref = db.reference('users')
+            user_ref = ref.child(user_id)
 
-                user_ref.update({
-                    'password': make_password(new_password),
-                    'reset_token': None
-                })
+            user_ref.update({
+                'password': make_password(new_password),
+                'reset_token': None
+            })
 
-                return JsonResponse({'success': 'Your password has been updated. You may log in now.'},status=200)
-            else:
-                return JsonResponse({'error': 'Passwords do not match'}, status=400)
+            return JsonResponse({'success': 'Your password has been updated. You may log in now.','status':200})
         else:
-            return JsonResponse({'error': 'The reset password link is invalid or expired'}, status=400)
+            return JsonResponse({'error': 'The reset password link is invalid or expired','status':400})
     else:
-        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+        return JsonResponse({'error': 'Only POST method is allowed','status':405})
 
 
 

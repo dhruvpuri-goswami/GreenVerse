@@ -1,5 +1,6 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Link from 'next/link'
 import React from 'react'
 
 export default function Nav() {
@@ -8,7 +9,7 @@ export default function Nav() {
             <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
                 <a className="flex items-center text-2xl font-black" href="/">
                     {/* Image Logo */}
-                    <span className='text-primary'>Green<span className='text-secondary'>Verse</span></span>
+                    <span className='text-primary_theme'>Green<span className='text-secondary_theme'>Verse</span></span>
                 </a>
                 <input className="peer hidden" type="checkbox" id="navbar-open" />
                 <label className="absolute right-0 mt-1 cursor-pointer text-xl sm:hidden" htmlFor="navbar-open">
@@ -18,7 +19,7 @@ export default function Nav() {
                 <nav aria-label="Header Navigation" className="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0">
                     <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
                         <li className=""><a className="text-gray-600 hover:text-primary_theme" href="#">Home</a></li>
-                        <li className="mt-2 sm:mt-0"><a className="rounded-xl border-2 border-primary_theme px-6 py-2 font-medium text-slate-800 hover:bg-primary_theme hover:text-white" href="#">Login</a></li>
+                        <li className="mt-2 sm:mt-0"><Link className="rounded-xl border-2 border-primary_theme px-6 py-2 font-medium text-slate-800 hover:bg-primary_theme hover:text-white" href="/Account/Signin">Login</Link></li>
                     </ul>
                 </nav>
             </div>

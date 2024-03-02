@@ -24,6 +24,11 @@ export function Profile() {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [image, setImage] = useState({});
+    const [user, setUser] = useState({
+        email: "",
+        name: "",
+        image: "",
+    });
     const router = useRouter();
 
     //calling route for naviagation
@@ -55,7 +60,7 @@ export function Profile() {
             
 
         const res = await signup();
-        if (res.error) {
+        if (res.error !== undefined || res.error !== null) {
             setIsError(true);
             setErrorMessage(res.error);
             setTimeout(() => {
@@ -115,6 +120,8 @@ export function Profile() {
                         </div>
                     </form>
                     </CardContent>
+                    <div className="pt-3">
+                    </div>
                     <CardFooter className="flex justify-between">
                         <Button variant="outline"  onClick={handleSkipBtn}>Skip</Button>
                         <Button onClick={handleSignUp}>Continue</Button>

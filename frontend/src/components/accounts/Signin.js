@@ -47,7 +47,7 @@ export default function Signin() {
         }
 
         const res = await signin();
-        if (res.error) {
+        if (res.error !== undefined || res.error !== null) {
             setIsError(true);
             setErrorMessage(res.error);
             setTimeout(() => {
@@ -108,13 +108,16 @@ export default function Signin() {
                         </div>
                     </form>
                 </CardContent>
+                <div className="pt-2 pb-4 px-6 text-xs text-blue-500 cursor-pointer">
+                    <Link href={'/Account/forget-password'}>Forget Password?</Link>
+                </div>
                 <CardFooter className="flex justify-between">
                     <Button variant="outline">Cancel</Button>
                     <Button onClick={handleSignin}>Continue</Button>
                 </CardFooter>
-                    <div className="ml-7 mb-3 -mt-2 text-sm">
-                        Don't have an account? <Link href={'/Account/Signup'} className="text-blue-500 cursor-pointer">Signup</Link>
-                    </div>
+                <div className="ml-7 mb-3 -mt-2 text-sm">
+                    Don't have an account? <Link href={'/Account/Signup'} className="text-blue-500 cursor-pointer">Signup</Link>
+                </div>
             </Card>
         </>
     )

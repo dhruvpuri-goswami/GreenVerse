@@ -32,8 +32,6 @@ export function Signup() {
       ...prev,
       [name]: value,
     }));
-    console.log(e);
-    console.log(authData)
   }
 
   const handleClick = () => {
@@ -122,6 +120,8 @@ export function Signup() {
           </div>
         </form>
       </CardContent>
+      <div className="pt-2 pb-4 px-6 text-xs text-blue-500 cursor-pointer">
+                </div>
       <CardFooter className="flex justify-between">
         <Button variant="outline" onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleClick}>Continue</Button>
