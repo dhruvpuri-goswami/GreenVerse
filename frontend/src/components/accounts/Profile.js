@@ -60,7 +60,8 @@ export function Profile() {
             
 
         const res = await signup();
-        if (res.error !== undefined || res.error !== null) {
+        console.log(res)
+        if (res.isError) {
             setIsError(true);
             setErrorMessage(res.error);
             setTimeout(() => {
@@ -68,7 +69,7 @@ export function Profile() {
             }, 1500);
             return;
         }
-        // useRouter().push('/Account/Profile');
+        router.push('/Dashboard');
     }
 
 

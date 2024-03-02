@@ -47,7 +47,7 @@ export default function Signin() {
         }
 
         const res = await signin();
-        if (res.error !== undefined || res.error !== null) {
+        if (res.isError) {
             setIsError(true);
             setErrorMessage(res.error);
             setTimeout(() => {
@@ -55,6 +55,8 @@ export default function Signin() {
             }, 1500);
             return;
         }
+
+        router.push('/Dashboard');
     }
 
     const validate = (email, password) => {

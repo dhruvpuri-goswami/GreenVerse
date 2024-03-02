@@ -47,7 +47,7 @@ def signup(request):
     users_ref = ref.child(email.replace('.', ','))
     
     if users_ref.get():
-        return JsonResponse({'error': 'A user with this email ID already exists.'}, status=409)
+        return JsonResponse({'error': 'A user with this email ID already exists.','status':409}, status=409)
 
     users_ref.set(user_data)
     
@@ -57,14 +57,14 @@ def signup(request):
         'img': imageurl,
     }
 
-    return JsonResponse({'success': 'Successfully registered. Please log in.', 'data': user_object}, status=200)
+    return JsonResponse({'success': 'Successfully registered. Please log in.', 'data': user_object,'status':200}, status=200)
 
 
 
 @csrf_exempt
 def signin(request):
     if request.method != "POST":
-        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+        return JsonResponse({'error': 'Only POST method is allowed','status':405}, status=405)
     
     data = json.loads(request.body)
     email = data.get('email')

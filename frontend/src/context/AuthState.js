@@ -30,16 +30,17 @@ export const AuthProvider = ({ children }) => {
 
             const data = await res.json();
             if(data.status === 200){
-                console.log(data.success);
-                return router.push('/Dashboard');   
+                return data;
             }
 
             return {
+                isError : true,
                 error : data.error
             }
             //handle route
         }catch(err){
             return {
+                isError : true,
                 error : err.message
             }
         }
@@ -59,20 +60,17 @@ export const AuthProvider = ({ children }) => {
             });
 
             const data = await res.json();
-            console.log(data)
             if(data.status === 200){
-                console.log(data.success);
-                router.push('/Dashboard');
-                return {
-                    error : null
-                };
+                return data;
             }
 
             return {
+                isError : true,
                 error : data.error
             }
         }catch(err){
             return {
+                isError : true,
                 error : err.message
             }
         }
@@ -106,7 +104,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     //handle change password for forget password
-    const changePassHandle = async(password,confirmPassword) =>{
+    const changePassHandle = async(password) =>{
         console.log(params)
         const uid = params.slug[0];
         const token = params.slug[1];
