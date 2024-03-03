@@ -21,7 +21,7 @@ import { faReply } from '@fortawesome/free-solid-svg-icons'
 import CommentCard from './CommentCard'
 import AiSuggest from './AiSuggest'
 
-export default function ToggleBox() {
+export default function ToggleBox({aidescription}) {
     return (
         <Tabs defaultValue="comments" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
@@ -39,7 +39,7 @@ export default function ToggleBox() {
                 </div>
             </TabsContent>
             <TabsContent value="aisuggestion">
-                <AiSuggest />
+                <AiSuggest aidescription={aidescription}/>
             </TabsContent>
         </Tabs>
     )

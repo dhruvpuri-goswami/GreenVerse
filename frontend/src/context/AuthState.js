@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const [forgetPassEmail,setForgetPassEmail] = useState("");
     const params = useParams();
     const router = useRouter();
+    const [user, setUser] = useState(null);
 
     const signup = async() =>{
         try{
@@ -30,6 +31,8 @@ export const AuthProvider = ({ children }) => {
 
             const data = await res.json();
             if(data.status === 200){
+                localStorage.setItem("user",JSON.stringify(data.data));
+                setUser(data.data);
                 return data;
             }
 
@@ -37,7 +40,6 @@ export const AuthProvider = ({ children }) => {
                 isError : true,
                 error : data.error
             }
-            //handle route
         }catch(err){
             return {
                 isError : true,
@@ -61,6 +63,8 @@ export const AuthProvider = ({ children }) => {
 
             const data = await res.json();
             if(data.status === 200){
+                localStorage.setItem("user",JSON.stringify(data.data));
+                setUser(data.data);
                 return data;
             }
 
@@ -142,9 +146,15 @@ export const AuthProvider = ({ children }) => {
     }
 0
     return (
-        <AuthContext.Provider value={{ authData, setAuthData, signin, signup, forgetPassHandle, changePassHandle}}>
+        <AuthContext.Provider value={{ authData, setAuthData, signin, signup, forgetPassHandle, changePassHandle , user, setUser}}>
             {children}
         </AuthContext.Provider>
     );
 };
 
+
+export const getUser = () => {
+    const { user } = useContext(AuthContext);
+    const userData = user || localStorage.getItem("user");
+    return userData;
+}

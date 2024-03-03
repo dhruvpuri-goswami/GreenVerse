@@ -19,7 +19,7 @@ import { useEffect } from "react"
 import { Textarea } from "../ui/textarea"
 import ToggleBox from "./ToggleBox"
 
-export function CommentsSheet() {
+export function CommentsSheet({aidescription}) {
 
     useEffect(() => {
         const listener = window.document.addEventListener("mouseenter", (e) => {
@@ -65,7 +65,7 @@ export function CommentsSheet() {
                     </SheetFooter>
                 </div>
                 <div className="h-[70%] mt-5 w-full">
-                    <ToggleBox />
+                    <ToggleBox aidescription={aidescription}/>
                 </div>
             </SheetContent>
         </Sheet>

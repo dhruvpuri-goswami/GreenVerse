@@ -282,11 +282,11 @@ def fetch_limited_posts(request):
             limit = int(limit)
             ref = db.reference('posts').order_by_child('datetime').limit_to_last(limit)
             posts = ref.get()
-            return JsonResponse({"posts": posts})
+            return JsonResponse({"posts": posts, 'status':200})
         else:
-            return JsonResponse({'error': 'Only GET requests are allowed.'}, status=405)
+            return JsonResponse({'error': 'Only GET requests are allowed.','status':405}, status=405)
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e), 'status':500}, status=500)
 
 @csrf_exempt
 def fetch_recent_posts(request):

@@ -10,6 +10,7 @@ export const PostProvider = ({ children }) => {
         images: [],
         tags: [],
     })
+    const [posts, setPosts] = useState([]);
 
     const addPost = async(uploadedImages) => {
         console.log(postObj);
@@ -46,8 +47,28 @@ export const PostProvider = ({ children }) => {
         }
     }
 
+    const getPosts = async(limit = 5) => {
+        try{
+            const res = await fetch(`http://localhost:8000/posts/limited/?limit=${limit}`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            const data = await res.json();
+            console.log(data)
+            
+            if(data.status === 200){
+                setPosts(data.posts);
+                console.log(data);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     return (
-        <PostContext.Provider value={{postObj,setPostObj, addPost}}>
+        <PostContext.Provider value={{postObj,setPostObj, addPost, getPosts , posts}}>
             {children}
         </PostContext.Provider>
     );
