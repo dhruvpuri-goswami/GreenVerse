@@ -1,5 +1,10 @@
 "use client"
-const { createContext, useState } = require("react");
+
+import { useRouter } from "next/navigation";
+import { getUser } from "./AuthState";
+import { useLocalStorage } from "@/lib/useLocalStorage";
+
+const { createContext, useState, useEffect } = require("react");
 
 export const PostContext = createContext();
 
@@ -9,11 +14,14 @@ export const PostProvider = ({ children }) => {
         description: "",
         images: [],
         tags: [],
-    })
+    });
+    const router = useRouter();
+    const user = useLocalStorage("user");
+            
     const [posts, setPosts] = useState([]);
 
     const addPost = async(uploadedImages) => {
-        console.log(postObj);
+        console.log(user)
         try{
             //api call
             const res = await fetch('http://localhost:8000/add-post/',{
@@ -25,7 +33,8 @@ export const PostProvider = ({ children }) => {
                     title: postObj.title,
                     description: postObj.description,
                     images: uploadedImages,
-                    tags: postObj.tags
+                    tags: postObj.tags,
+                    user: user[0].email
                 })
             });
             const data = await res.json();

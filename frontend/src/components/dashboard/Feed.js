@@ -22,7 +22,7 @@ export default function Feed({ post }) {
             <div className='pr-5'>
                 <div class="w-full flex items-center">
                     <div className="mr-5 w-full max-w-[250px] flex items-center justify-between">
-                        <PostImageSlide />
+                        <PostImageSlide images={post.image_urls} />
                     </div>
                     <div className='h-full flex flex-col justify-between'>
                         <p className='text-sm font-bold mb-2 text-primary_theme'>{post.title}</p>

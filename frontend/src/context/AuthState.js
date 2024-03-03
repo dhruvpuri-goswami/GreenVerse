@@ -2,6 +2,7 @@
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import React, { createContext, useState, useContext } from 'react';
+import { PostProvider } from './PostState';
 
 export const AuthContext = createContext();
 
@@ -147,7 +148,9 @@ export const AuthProvider = ({ children }) => {
 0
     return (
         <AuthContext.Provider value={{ authData, setAuthData, signin, signup, forgetPassHandle, changePassHandle , user, setUser}}>
+            <PostProvider user={user} >
             {children}
+            </PostProvider>
         </AuthContext.Provider>
     );
 };
@@ -156,5 +159,9 @@ export const AuthProvider = ({ children }) => {
 export const getUser = () => {
     const { user } = useContext(AuthContext);
     const userData = user || localStorage.getItem("user");
+    console.log(userData)
+    if(userData === null){
+        return null;
+    }
     return userData;
 }

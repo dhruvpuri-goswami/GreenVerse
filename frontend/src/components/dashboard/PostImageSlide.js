@@ -9,19 +9,43 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import plantImg from "../../../public/plant.jpg"
-import plant1Img from "../../../public/plant_1.jpg"
+import Image from "next/image"
 
-export function PostImageSlide() {
-  const arr = [plant1Img, plantImg];
+export function PostImageSlide({ images }) {
+  console.log(images)
   return (
     <Carousel className="w-[250px] max-w-sm m-auto">
       <CarouselContent>
-        {arr.map((imgSrc, index) => (
+        { images.length === 0 && 
+          <CarouselItem>
+            <div className="p-1">
+              <Card>
+                <CardContent className="flex aspect-square items-center justify-center p-4">
+                  <Image
+                    src={plantImg}
+                    alt="Your image description"
+                    width={500}
+                    height={300}
+                    layout="responsive" // Optional: Use responsive layout
+                  />
+                </CardContent>
+              </Card>
+            </div>
+          </CarouselItem>
+        }
+        {
+        images.map((imgSrc, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-4">
-                <img width={800} height={400} src={imgSrc.src} />
+                  <Image
+                    src={imgSrc}
+                    alt="Your image description"
+                    width={500}
+                    height={300}
+                    layout="responsive" // Optional: Use responsive layout
+                  />
                 </CardContent>
               </Card>
             </div>

@@ -9,12 +9,11 @@ import React, { useContext } from 'react'
 export default function DashboardNav() {
     const { setUser } = useContext(AuthContext);
     const pathname = usePathname();
-    console.log(pathname)
     const router = useRouter();
     const handleLogOut = () =>{
         localStorage.removeItem('user');
         setUser(null);
-        router.push('/Account/Login');
+        router.push('/Account/Signin');
     }
 
     return (
