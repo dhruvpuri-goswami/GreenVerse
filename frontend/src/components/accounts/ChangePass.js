@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { AuthContext } from "@/context/AuthState"
 import { AlertDestructive } from "../ui/AlertDestructive"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const ChangePass = () => {
     const authContext = useContext(AuthContext);
@@ -78,8 +79,8 @@ const ChangePass = () => {
             </div>
             <Card className="w-[350px] m-auto">
                 <CardHeader>
-                    <CardTitle>Forget Password</CardTitle>
-                    <CardDescription>Hey, forget password? Don't worry!!</CardDescription>
+                    <CardTitle>Change Password</CardTitle>
+                    <CardDescription>Now, You can change your account password here!</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form>
@@ -97,8 +98,11 @@ const ChangePass = () => {
                 </CardContent>
                 <div className="pt-3">
                 </div>
-                <CardFooter className="flex justify-between">
+                <CardFooter className="mt-3 flex items-center justify-between">
                     <Button onClick={handlePassChange}>Continue</Button>
+                    <div className="text-sm">
+                        Go Back to <Link href={'/Account/Signup'} className="text-secondary_theme cursor-pointer">SignUp</Link> | <Link href={'/Account/Signin'} className="text-secondary_theme cursor-pointer">SignIn</Link>
+                    </div>
                 </CardFooter>
             </Card>
         </>

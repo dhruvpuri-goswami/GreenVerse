@@ -20,12 +20,12 @@ export function PostImageSlide({ images }) {
           <CarouselItem>
             <div className="p-1">
               <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-4">
+                <CardContent className="flex aspect-square items-center justify-center p-2">
                   <Image
                     src={plantImg}
                     alt="Your image description"
-                    width={500}
-                    height={300}
+                    width={600}
+                    height={400}
                     layout="responsive" // Optional: Use responsive layout
                   />
                 </CardContent>

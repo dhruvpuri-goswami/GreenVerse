@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { AuthContext } from "@/context/AuthState"
 import { AlertDestructive } from "../ui/AlertDestructive"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const ForgetPass = () => {
   const authContext = useContext(AuthContext);
@@ -68,7 +69,7 @@ const ForgetPass = () => {
             </div>
             <Card className="w-[350px] m-auto">
                 <CardHeader>
-                    <CardTitle>Forget Password</CardTitle>
+                    <CardTitle className="text-primary_theme">Forget Password</CardTitle>
                     <CardDescription>Hey, forget password? Don't worry!!</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -80,9 +81,10 @@ const ForgetPass = () => {
                             </div>
                         </div>
                     </form>
+                    <div className="my-5 text-sm">
+                        Go Back to <Link href={'/Account/Signup'} className="text-secondary_theme cursor-pointer">SignUp</Link> | <Link href={'/Account/Signin'} className="text-secondary_theme cursor-pointer">SignIn</Link>
+                    </div>
                 </CardContent>
-                <div className="pt-3">
-                </div>
                 <CardFooter className="flex justify-between">
                     <Button onClick={handleForgetPass}>Continue</Button>
                 </CardFooter>

@@ -18,8 +18,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary_theme: "#00bf3b",
-        secondary_theme: "#008d2b",
+        primary_theme: "#002E1C",
+        secondary_theme: "#00bf3b",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -97,9 +97,9 @@ export function Signup() {
     <div className={`absolute w-1/3 -translate-y-1/2 ${isError ? "top-12" : "-top-1/2"} -translate-x-1/2 left-1/2 ease-in duration-500`}>
         <AlertDestructive errorMessage={errorMessage}/>
     </div>
-    <Card className="w-[350px] m-auto">
+    <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Signup</CardTitle>
+        <CardTitle className="text-primary_theme">Signup</CardTitle>
         <CardDescription>Hey, Signup your account.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -120,14 +120,14 @@ export function Signup() {
           </div>
         </form>
       </CardContent>
-      <div className="pt-2 pb-4 px-6 text-xs text-blue-500 cursor-pointer">
+      <div className="pt-2 pb-4 px-6 text-xs text-primary_theme font-bold cursor-pointer">
                 </div>
       <CardFooter className="flex justify-between">
         <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleClick}>Continue</Button>
+        <Button onClick={handleClick} className="bg-primary_theme">Continue</Button>
       </CardFooter>
       <div className="ml-7 mb-3 -mt-2 text-sm">
-        Already have an account? <Link href={'/Account/Signin'} className="text-blue-500 cursor-pointer">Signin</Link>   
+        Already have an account? <Link href={'/Account/Signin'} className="text-secondary_theme cursor-pointer">Signin</Link>   
       </div>
     </Card>
     </>

@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Feed from './Feed'
 import { PostContext } from '@/context/PostState';
-const userData = localStorage.getItem("user");
 
 export default function DashboardMain() {
     const postContext = useContext(PostContext);

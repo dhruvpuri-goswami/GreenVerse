@@ -14,7 +14,7 @@ export default function Feed({ post }) {
             <div class="mb-4 flex justify-between border-b pb-3 px-5">
                 <p class="text-xl font-bold text-gray-700">Sahil Nayak</p>
                 <div className='w-28 flex items-center justify-between'>
-                    <button class="text-sm font-medium text-slate-700 focus:outline-none focus:ring-1"><FontAwesomeIcon width={20} icon={faCommentDots} /></button>
+                    <a href="http://localhost:5173/" class="text-sm font-medium text-slate-700 focus:outline-none focus:ring-1"><FontAwesomeIcon width={20} icon={faCommentDots} /></a>
                     <button class="text-sm font-medium text-slate-700 focus:outline-none focus:ring-1"><FontAwesomeIcon width={17} icon={faPhone} /></button>
                     <button class="text-sm font-medium text-slate-700 focus:outline-none focus:ring-1"><FontAwesomeIcon width={17} icon={faVideo} /></button>
                 </div>

@@ -88,12 +88,12 @@ export default function Signin() {
 
     return (
         <>
-            <div className={`absolute w-1/3 -translate-y-1/2 ${isError ? "top-12" : "-top-1/2"} -translate-x-1/2 left-1/2 ease-in duration-500`}>
+            <div className={`absolute w-1/3 -translate-y-1/2 ${isError ? "bottom-9" : "-bottom-1/2"} translate-x-1/2 right-64 ease-in duration-500`}>
                 <AlertDestructive errorMessage={errorMessage} />
             </div>
-            <Card className="w-[350px] m-auto">
+            <Card className="w-[350px]">
                 <CardHeader>
-                    <CardTitle>Signin</CardTitle>
+                    <CardTitle className="text-primary_theme">Signin</CardTitle>
                     <CardDescription>Hey, Signin to your account</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -110,7 +110,7 @@ export default function Signin() {
                         </div>
                     </form>
                 </CardContent>
-                <div className="pt-2 pb-4 px-6 text-xs text-blue-500 cursor-pointer">
+                <div className="pt-2 pb-4 px-6 text-xs text-secondary_theme cursor-pointer">
                     <Link href={'/Account/forget-password'}>Forget Password?</Link>
                 </div>
                 <CardFooter className="flex justify-between">
@@ -118,7 +118,7 @@ export default function Signin() {
                     <Button onClick={handleSignin}>Continue</Button>
                 </CardFooter>
                 <div className="ml-7 mb-3 -mt-2 text-sm">
-                    Don't have an account? <Link href={'/Account/Signup'} className="text-blue-500 cursor-pointer">Signup</Link>
+                    Don't have an account? <Link href={'/Account/Signup'} className="text-secondary_theme cursor-pointer">Signup</Link>
                 </div>
             </Card>
         </>
