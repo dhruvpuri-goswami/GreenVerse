@@ -211,6 +211,8 @@ def addpost(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            user_gmail = data.get('user')
+            user_name = data.get('username')
             title = data.get('title')
             description = data.get('description')
             tags = data.get('tags', [])  
@@ -229,6 +231,8 @@ def addpost(request):
                 'image_urls': image_urls,
                 'datetime': datetime_posted,
                 'ai_generated_comment': ai_generated_comment,
+                'user' : user_gmail,
+                'username' : user_name,
             }
 
             ref = db.reference('posts')

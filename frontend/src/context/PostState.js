@@ -34,7 +34,8 @@ export const PostProvider = ({ children }) => {
                     description: postObj.description,
                     images: uploadedImages,
                     tags: postObj.tags,
-                    user: user[0]?.email
+                    user: user[0]?.email,
+                    username: user[0]?.name
                 })
             });
             const data = await res.json();
