@@ -25,7 +25,7 @@ export default function Feed({ post }) {
                         <PostImageSlide images={post.image_urls} />
                     </div>
                     <div className='h-full flex flex-col justify-between'>
-                        <p className='text-sm font-bold mb-2 text-primary_theme'>{post.title}</p>
+                        <p className='text-sm font-bold mb-2 text-secondary_theme'>{post.title}</p>
                         <p className='text-sm h-[200px] overflow-y-auto text-justify'>{post.description}</p>
                         <div className='w-full h-[50px] flex flex-row-reverse items-center justify-between mt-3'>
                             <div className='flex items-center justify-between'>

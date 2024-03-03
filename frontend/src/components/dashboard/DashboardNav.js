@@ -35,10 +35,10 @@ export default function DashboardNav() {
                         <li className="w-max h-max">
                             <Link className={`${pathname.replace('/', '') === "Dashboard" ? "text-[#23c856]" : "text-white"} -center justify-center`} href="/Dashboard">Dashboard</Link></li>
                         <li className="w-max h-max">
-                            <Link className={`${pathname.replace('/', '') === "Message" ? "text-[#23c856]" : "text-white"} -center justify-center`} href="#">
+                            <Link className={`${pathname.replace('/', '') === "Message" ? "text-[#23c856]" : "text-white"} -center justify-center`} href="http://localhost:5173/">
                                 Message</Link></li>
                         <li className="w-max h-max">
-                            <Link className={`${pathname.replace('/', '') === "Explore" ? "text-[#23c856]" : "text-white"} -center justify-center`} href="#">
+                            <Link className={`${pathname.replace('/', '') === "Explore" ? "text-[#23c856]" : "text-white"} -center justify-center`} href="/Search">
                                 Explore</Link></li>
                         <li className="w-max h-max">
                             <Link className={`${pathname.replace('/', '') === "Profile" ? "text-[#23c856]" : "text-white"} -center justify-center`} href="#">

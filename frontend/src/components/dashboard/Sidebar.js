@@ -1,10 +1,12 @@
+"use client"
 import React from 'react'
 import { Button } from '../ui/button'
 import Image from 'next/image'
 import plantIcon from "../../../public/icons/plant.png"
+import { useLocalStorage } from '@/lib/useLocalStorage'
 export default function Sidebar() {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    console.log(userData)
+    const [user, setUser] = useLocalStorage("user");
+    const userData = user;
     return (
         <div className="w-72 h-full py-3 flex flex-col justify-between bg-white border-t-2 border-r-2 shadow-lg">
             <div className="w-full h-[40%] p-2">
