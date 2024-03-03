@@ -12,7 +12,7 @@ export default function Feed({ post }) {
     return (
         <div class="mx-auto my-8 bg-white w-[85%] rounded-xl border border-gray-100 p-4 shadow-lg">
             <div class="mb-4 flex justify-between border-b pb-3 px-5">
-                <p class="text-xl font-bold text-gray-700">Sahil Nayak</p>
+                <p class="text-xl font-bold text-gray-700">{post.username}</p>
                 <div className='w-28 flex items-center justify-between'>
                     <a href="http://localhost:5173/" class="text-sm font-medium text-slate-700 focus:outline-none focus:ring-1"><FontAwesomeIcon width={20} icon={faCommentDots} /></a>
                     <button class="text-sm font-medium text-slate-700 focus:outline-none focus:ring-1"><FontAwesomeIcon width={17} icon={faPhone} /></button>
